@@ -17,6 +17,12 @@ importers:
       playwright:
         specifier: ^1.58.2
         version: 1.58.2
+      playwright-extra:
+        specifier: ^4.3.6
+        version: 4.3.6(playwright-core@1.58.2)(playwright@1.58.2)
+      playwright-extra-plugin-stealth:
+        specifier: ^0.0.1
+        version: 0.0.1
       playwright-stealth:
         specifier: ^0.0.1
         version: 0.0.1
@@ -94,6 +100,15 @@ packages:
     resolution: {integrity: sha512-u/O3vwbptzhMs3L1fQE82ZSLHQQfto5gyZzwteVIEyeaY5Fc7R4dapF/BvRoSYFeqfBk4m0V1Vafq5Pjv25wvA==}
     engines: {node: '>= 6'}
 
+  debug@4.4.3:
+    resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
   diff@4.0.4:
     resolution: {integrity: sha512-X07nttJQkwkfKfvTPG/KSnE2OMdcUCao6+eXF3wmnIQRn2aPAHH3VxDbDOdegkd6JbPsXqShpvEOHfAT+nCNwQ==}
     engines: {node: '>=0.3.1'}
@@ -145,6 +160,9 @@ packages:
   make-error@1.3.6:
     resolution: {integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==}
 
+  ms@2.1.3:
+    resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
+
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
@@ -161,6 +179,21 @@ packages:
     resolution: {integrity: sha512-yZkEtftgwS8CsfYo7nm0KE8jsvm6i/PTgVtB8DL726wNf6H2IMsDuxCpJj59KDaxCtSnrWan2AeDqM7JBaultg==}
     engines: {node: '>=18'}
     hasBin: true
+
+  playwright-extra-plugin-stealth@0.0.1:
+    resolution: {integrity: sha512-eI0Ujf4MXbcupzlVEXaaOnb+Exjt1sFi7t/3KxIA5pVww+WRAXRWdhqTz0glX62jJq2YM8fLu+GyvULpjTpZrw==}
+
+  playwright-extra@4.3.6:
+    resolution: {integrity: sha512-q2rVtcE8V8K3vPVF1zny4pvwZveHLH8KBuVU2MoE3Jw4OKVoBWsHI9CH9zPydovHHOCDxjGN2Vg+2m644q3ijA==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      playwright: '*'
+      playwright-core: '*'
+    peerDependenciesMeta:
+      playwright:
+        optional: true
+      playwright-core:
+        optional: true
 
   playwright-stealth@0.0.1:
     resolution: {integrity: sha512-z7iJllbLk4AroVisI2yjTP3F6I6wLBNbaQiohJ8E8pHB2n6UMYYqtaAL1CubSFHWJ7VJ1vVfy40NTE6WSijXUg==}
@@ -287,6 +320,10 @@ snapshots:
 
   css-what@6.2.2: {}
 
+  debug@4.4.3:
+    dependencies:
+      ms: 2.1.3
+
   diff@4.0.4: {}
 
   dom-serializer@2.0.0:
@@ -336,6 +373,8 @@ snapshots:
 
   make-error@1.3.6: {}
 
+  ms@2.1.3: {}
+
   nth-check@2.1.1:
     dependencies:
       boolbase: 1.0.0
@@ -354,6 +393,17 @@ snapshots:
       entities: 6.0.1
 
   playwright-core@1.58.2: {}
+
+  playwright-extra-plugin-stealth@0.0.1: {}
+
+  playwright-extra@4.3.6(playwright-core@1.58.2)(playwright@1.58.2):
+    dependencies:
+      debug: 4.4.3
+    optionalDependencies:
+      playwright: 1.58.2
+      playwright-core: 1.58.2
+    transitivePeerDependencies:
+      - supports-color
 
   playwright-stealth@0.0.1: {}
 
