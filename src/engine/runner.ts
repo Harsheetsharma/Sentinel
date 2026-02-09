@@ -1,38 +1,50 @@
-import { chromium, Browser, BrowserContext } from 'playwright';
-import { stealth } from "playwright-stealth";
-// import stealth from 'playwright-extra';
-import * as cheerio from "cheerio";
+import { chromium } from 'playwright-extra';
+import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import type { Browser } from 'playwright';
 
+chromium.use(StealthPlugin());
 
-async function startworker() {
-    let browser = await chromium.launch({
-        headless: true
-    })
-    let context = await browser.newContext();
-    return {
-        browser, context
+export class SentinelEngine {
+    private browser: Browser | null = null;
+
+    async init() {
+        this.browser = await chromium.launch({ headless: true });
+        console.log("Engine Initialized!");
     }
-}
-export async function Goto({ url, selector }: any) {
-    const { browser, context } = await startworker();
-    const page = await context.newPage();
-    await stealth(page);
 
-    await page.goto(`${url}`, {
-        waitUntil: "networkidle"
-    })
-    await page.waitForSelector(selector);
+    async executeTask(url: string, selector: string) {
+        if (!this.browser) {
+            throw new Error("Engine not initialized!");
+        }
 
-    const content = await page.content();
+        const context = await this.browser.newContext({
+            userAgent:
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
+                '(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        });
 
-    const $ = cheerio.load(content);
-    const title = $("h1").text();
+        const page = await context.newPage();
 
-    console.log('the title is ', title);
+        try {
+            await page.goto(url, { waitUntil: "networkidle", timeout: 30000 });
+            await page.waitForSelector(selector);
 
+            const content = await page.$eval(
+                selector,
+                el => el.textContent
+            );
 
-    page.click(selector);
-    await page.screenshot({ path: "page.png" })
+            const screenshot = await page.screenshot();
 
-    await browser.close()
+            return { content, screenshot };
+        } finally {
+            await context.close();
+        }
+    }
+
+    async shutdown() {
+        if (this.browser) {
+            await this.browser.close();
+        }
+    }
 }

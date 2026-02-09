@@ -6,7 +6,11 @@
     "strict": true,                      // enable strict type checking
     "esModuleInterop": true,             // allows 'import x from ...'
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,                // skip type checks for external JS libs
+    "skipLibCheck": true, 
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ],               // skip type checks for external JS libs
     "outDir": "dist",                    // compiled output (optional)
     "rootDir": "src",                    // your source folder
     "resolveJsonModule": true            // allows import .json files
