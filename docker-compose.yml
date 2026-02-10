@@ -1,0 +1,31 @@
+version : "3.7"
+
+services:
+      postgres:
+        image: postgres:16  
+        container_name: sentinel-postgres
+        environment:
+           POSTGRES_USERNAME: postgres
+           POSTGRES_PASSWORD: postgres
+           POSTGRES_DB: sentinel
+        
+        ports:
+          - "5432:5432"
+
+        healthcheck:
+           test: pg_isready -U postgres
+           interval: 5s
+           timeout: 5s
+           retries : 5
+      
+      redis:
+         image: redis:7
+         container_name: sentinel-redis
+
+         ports:
+           - "6379:6379"
+         healthcheck:
+           test: redis-cli ping
+           interval: 5s 
+           timeout: 5s
+           retries: 5

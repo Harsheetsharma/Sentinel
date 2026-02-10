@@ -1,0 +1,36 @@
+// Use your standard Postgres setup
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Monitor {
+    id          String    @id @default(uuid())
+    name        String
+    url         String
+    selector    String
+    frequency   Int // In minutes
+    isActive    Boolean   @default(true)
+    lastValue   String?
+    lastChecked DateTime?
+    createdAt   DateTime  @default(now())
+
+    // Relations
+    observations Observation[]
+}
+
+model Observation {
+    id         String   @id @default(uuid())
+    monitorId  String
+    monitor    Monitor  @relation(fields: [monitorId], references: [id])
+    value      String // The text extracted
+    difference Float? // Percentage change from last observation
+    hasChanged Boolean  @default(false)
+    capturedAt DateTime @default(now())
+
+    @@index([monitorId, capturedAt]) // Critical for fast history lookups
+}
